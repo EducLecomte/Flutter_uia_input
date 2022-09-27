@@ -31,6 +31,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String _textChanged = "";
   String _textSubmitted = "";
+
   final _formKey = GlobalKey<FormState>();
   String _valeurSaisie = "";
 
@@ -82,6 +83,13 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       // on considère que bobyNum ==1
       // ajouter avant le else final, d'autre elseif pour d'autre valeur (3, 4, ...)
+
+      /**
+       * 
+       * 
+       * A debugger
+       * 
+       */
       _body = Center(
         child: SingleChildScrollView(
           child: Column(
@@ -196,6 +204,51 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+      // body: Center(
+      //   child: SingleChildScrollView(
+      //     child: Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: <Widget>[
+      //         const Text(
+      //           "Veuillez tester le textField :",
+      //           style: TextStyle(fontWeight: FontWeight.bold),
+      //         ),
+      //         TextField(
+      //           decoration: const InputDecoration(
+      //               hintText: "Zone de saisie", labelText: "Label"),
+      //           onChanged: (value) {
+      //             setState(() {
+      //               //_textChanged = value;
+      //               if (!value.contains(RegExp(r'[0-9]'))) {
+      //                 _textChanged = value;
+      //               }
+      //             });
+      //           },
+      //           onSubmitted: (value) {
+      //             setState(() {
+      //               _textSubmitted = value;
+      //             });
+      //           },
+
+      //           //controller: _contoller,
+      //           //obscureText: true, // pour la saisie des mot de pase
+      //         ),
+      //         const Padding(padding: EdgeInsets.only(top: 50)),
+      //         const Text(
+      //           "Texte en cours dans le textFiel :",
+      //           style: TextStyle(fontWeight: FontWeight.bold),
+      //         ),
+      //         Text("$_textChanged"),
+      //         const Padding(padding: EdgeInsets.only(top: 10)),
+      //         const Text(
+      //           "Texte soumis dans textField :",
+      //           style: TextStyle(fontWeight: FontWeight.bold),
+      //         ),
+      //         Text("$_textSubmitted"),
+      //       ],
+      //     ),
+      //   ),
+      // )
       body: _body,
     );
   }
