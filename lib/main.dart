@@ -31,6 +31,105 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String _textChanged = "";
   String _textSubmitted = "";
+  final _formKey = GlobalKey<FormState>();
+  String _valeurSaisie = "";
+
+  Widget _body = Center(
+    child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [Text("Choisir dans le drawer")]),
+  );
+
+  void changeBody(int bodyNum) {
+    if (bodyNum == 2) {
+      _body = Center(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text(
+                'Numéro:',
+              ),
+              TextFormField(
+                validator: (valeur) {
+                  if (valeur == null || valeur.isEmpty) {
+                    return 'Please enter some text';
+                  } else {
+                    _valeurSaisie = valeur.toString();
+                  }
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(_valeurSaisie),
+                        ),
+                      );
+                    }
+                  },
+                  child: const Text('Submit'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else {
+      // on considère que bobyNum ==1
+      // ajouter avant le else final, d'autre elseif pour d'autre valeur (3, 4, ...)
+      _body = Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text(
+                "Veuillez tester le textField :",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              TextField(
+                decoration: const InputDecoration(
+                    hintText: "Zone de saisie", labelText: "Label"),
+                onChanged: (value) {
+                  setState(() {
+                    //_textChanged = value;
+                    if (!value.contains(RegExp(r'[0-9]'))) {
+                      _textChanged = value;
+                    }
+                  });
+                },
+                onSubmitted: (value) {
+                  setState(() {
+                    _textSubmitted = value;
+                  });
+                },
+
+                //controller: _contoller,
+                //obscureText: true, // pour la saisie des mot de pase
+              ),
+              const Padding(padding: EdgeInsets.only(top: 50)),
+              const Text(
+                "Texte en cours dans le textFiel :",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text("$_textChanged"),
+              const Padding(padding: EdgeInsets.only(top: 10)),
+              const Text(
+                "Texte soumis dans textField :",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text("$_textSubmitted"),
+            ],
+          ),
+        ),
+      );
+    }
+    setState(() {});
+  }
 
 /*
 /**
@@ -62,51 +161,42 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                "Veuillez tester le textField :",
-                style: TextStyle(fontWeight: FontWeight.bold),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
               ),
-              TextField(
-                decoration: const InputDecoration(
-                    hintText: "Zone de saisie", labelText: "Label"),
-                onChanged: (value) {
-                  setState(() {
-                    _textChanged = value;
-                    /*if (!value.contains(RegExp(r'[0-9]'))) {
-                      _textChanged = value;
-                    }*/
-                  });
-                },
-                onSubmitted: (value) {
-                  setState(() {
-                    _textSubmitted = value;
-                  });
-                },
-
-                //controller: _contoller,
-                //obscureText: true, // pour la saisie des mot de pase
+              child: Text(
+                'Menu',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
               ),
-              const Padding(padding: EdgeInsets.only(top: 50)),
-              const Text(
-                "Texte en cours dans le textFiel :",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text("$_textChanged"),
-              const Padding(padding: EdgeInsets.only(top: 10)),
-              const Text(
-                "Texte soumis dans textField :",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text("$_textSubmitted"),
-            ],
-          ),
+            ),
+            ListTile(
+              leading: Icon(Icons.looks_one),
+              title: Text('TextField'),
+              onTap: () {
+                changeBody(1);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.looks_two),
+              title: Text('TextFormField'),
+              onTap: () {
+                changeBody(2);
+                Navigator.pop(context);
+              },
+            ),
+          ],
         ),
       ),
+      body: _body,
     );
   }
 }
