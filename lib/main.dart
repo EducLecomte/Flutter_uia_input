@@ -44,17 +44,18 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text(
-                'Numéro:',
-              ),
-              TextFormField(
-                validator: (valeur) {
-                  if (valeur == null || valeur.isEmpty) {
-                    return 'Please enter some text';
-                  } else {
-                    _valeurSaisie = valeur.toString();
-                  }
-                },
+              Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: TextFormField(
+                  decoration: const InputDecoration(labelText: "Numéro"),
+                  validator: (valeur) {
+                    if (valeur == null || valeur.isEmpty) {
+                      return 'Please enter some text';
+                    } else {
+                      _valeurSaisie = valeur.toString();
+                    }
+                  },
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
